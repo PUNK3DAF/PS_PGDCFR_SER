@@ -20,6 +20,14 @@ public class Controller {
     private List<Admin> admini = new ArrayList<>();
     private Admin user;
 
+    public Admin getUser() {
+        return user;
+    }
+
+    public void setUser(Admin user) {
+        this.user = user;
+    }
+
     private Controller() {
         Admin a1 = new Admin("pera@gmail.com", "123456", "Pera", "Peric");
         Admin a2 = new Admin("mara@gmail.com", "654321", "Mara", "Maric");
@@ -38,7 +46,7 @@ public class Controller {
     public boolean log(Admin a) {
         for (Admin ad : admini) {
             if (a.getMail().equals(ad.getMail()) && a.getSifra().equals(ad.getSifra())) {
-                user = a;
+                user = ad;
                 return true;
             }
         }
