@@ -73,4 +73,22 @@ public class Controller {
         brojevi.add(sb);
     }
 
+    public boolean postoji(SkriveniBroj sb) {
+        for (SkriveniBroj broj : brojevi) {
+            if (broj.getVrednost() == sb.getVrednost()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public SkriveniBroj pogodiBroj(SkriveniBroj sb) {
+        for (SkriveniBroj broj : brojevi) {
+            if (broj.getRed() == sb.getRed() && broj.getKolona() == sb.getKolona()) {
+                return broj;
+            }
+        }
+        return null;
+    }
+
 }

@@ -4,12 +4,14 @@
  */
 package niti;
 
+import controller.Controller;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.SkriveniBroj;
 import operacije.Operacije;
 import transfer.KlijentskiZahtev;
 import transfer.ServerskiOdgovor;
@@ -33,8 +35,11 @@ public class ObradaKlijentskihZahteva extends Thread {
             ServerskiOdgovor so = new ServerskiOdgovor();
 
             switch (kz.getOperacija()) {
-                case Operacije.POGODI_BROJ ->
-                    so.setOdgovor("BROJ");
+                case Operacije.POGODI_BROJ -> {
+                    SkriveniBroj pogodjen = Controller.getInstance().pogodiBroj((SkriveniBroj) kz.getParam());
+                    so.setOdgovor(pogodjen);
+                    break;
+                }
                 default ->
                     throw new AssertionError();
             }

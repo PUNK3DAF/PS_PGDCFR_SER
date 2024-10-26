@@ -5,7 +5,6 @@
 package forme;
 
 import controller.Controller;
-import java.awt.Point;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -168,10 +167,16 @@ public class ServerskaForma extends javax.swing.JFrame {
                     sb.setRed(red);
                     int vred = (int) tabela.getValueAt(red, kol);
                     sb.setVrednost(vred);
-                    Controller.getInstance().dodaj(sb);
-                    skrBr++;
-                    if (skrBr == 3) {
-                        jButtonPokreniIgru.setEnabled(true);
+                    if (Controller.getInstance().postoji(sb)) {
+                        --skrBr;
+                        tabela.setValueAt(null, e.getLastRow(), e.getColumn());
+                        JOptionPane.showMessageDialog(null, "VEC POSTOJI", "OVAJ BROJ VEC POSTOJI", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        Controller.getInstance().dodaj(sb);
+                        skrBr++;
+                        if (skrBr == 3) {
+                            jButtonPokreniIgru.setEnabled(true);
+                        }
                     }
                 }
             }
