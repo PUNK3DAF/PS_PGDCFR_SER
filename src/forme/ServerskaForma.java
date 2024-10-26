@@ -5,7 +5,12 @@
 package forme;
 
 import controller.Controller;
+import java.awt.Point;
+import javax.swing.JOptionPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import model.SkriveniBroj;
 import niti.PokreniServer;
 
 /**
@@ -124,11 +129,13 @@ public class ServerskaForma extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPokreniIgruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPokreniIgruActionPerformed
-        // TODO add your handling code here:
+        PokreniServer ps = new PokreniServer();
+        ps.start();
+        JOptionPane.showMessageDialog(this, "USPESNO", "IGRA JE POKRENUTA", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButtonPokreniIgruActionPerformed
 
     private void jTableServerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableServerMouseClicked
-        TableModel tabela = (TableModel) evt.getSource();
+
     }//GEN-LAST:event_jTableServerMouseClicked
 
     /**
@@ -144,9 +151,30 @@ public class ServerskaForma extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void startuj() {
-        jLabelIme.setText(Controller.getInstance().getUser().getIme() + " " + Controller.getInstance().getUser().getPrezime());
         jButtonPokreniIgru.setEnabled(false);
-        PokreniServer ps = new PokreniServer();
-        ps.start();
+        jLabelIme.setText(Controller.getInstance().getUser().getIme() + " " + Controller.getInstance().getUser().getPrezime());
+        jTableServer.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                TableModel tabela = (TableModel) e.getSource();
+                if (Controller.getInstance().getBrojevi().size() >= 3 && tabela.getValueAt(e.getLastRow(), e.getColumn()) != null) {
+                    tabela.setValueAt(null, e.getLastRow(), e.getColumn());
+                    JOptionPane.showMessageDialog(null, "NE MOZE VISE", "UNEO SI MAKS", JOptionPane.ERROR_MESSAGE);
+                } else if (tabela.getValueAt(e.getLastRow(), e.getColumn()) != null) {
+                    int red = e.getLastRow();
+                    int kol = e.getColumn();
+                    SkriveniBroj sb = new SkriveniBroj();
+                    sb.setKolona(kol);
+                    sb.setRed(red);
+                    int vred = (int) tabela.getValueAt(red, kol);
+                    sb.setVrednost(vred);
+                    Controller.getInstance().dodaj(sb);
+                    skrBr++;
+                    if (skrBr == 3) {
+                        jButtonPokreniIgru.setEnabled(true);
+                    }
+                }
+            }
+        });
     }
 }

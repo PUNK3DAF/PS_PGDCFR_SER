@@ -28,6 +28,22 @@ public class Controller {
         this.user = user;
     }
 
+    public List<SkriveniBroj> getBrojevi() {
+        return brojevi;
+    }
+
+    public void setBrojevi(List<SkriveniBroj> brojevi) {
+        this.brojevi = brojevi;
+    }
+
+    public List<Admin> getAdmini() {
+        return admini;
+    }
+
+    public void setAdmini(List<Admin> admini) {
+        this.admini = admini;
+    }
+
     private Controller() {
         Admin a1 = new Admin("pera@gmail.com", "123456", "Pera", "Peric");
         Admin a2 = new Admin("mara@gmail.com", "654321", "Mara", "Maric");
@@ -51,6 +67,10 @@ public class Controller {
             }
         }
         return false;
+    }
+
+    public void dodaj(SkriveniBroj sb) {
+        brojevi.add(sb);
     }
 
 }
