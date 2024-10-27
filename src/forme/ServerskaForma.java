@@ -168,7 +168,6 @@ public class ServerskaForma extends javax.swing.JFrame {
                     int vred = (int) tabela.getValueAt(red, kol);
                     sb.setVrednost(vred);
                     if (Controller.getInstance().postoji(sb)) {
-                        --skrBr;
                         tabela.setValueAt(null, e.getLastRow(), e.getColumn());
                         JOptionPane.showMessageDialog(null, "VEC POSTOJI", "OVAJ BROJ VEC POSTOJI", JOptionPane.ERROR_MESSAGE);
                     } else {
